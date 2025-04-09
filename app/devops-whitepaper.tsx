@@ -48,6 +48,13 @@ type Benefit = {
   description: string;
 };
 
+// Define types for methodology phases
+type MethodologyPhase = {
+  phase: string;
+  activities: string[];
+  deliverables: string[];
+};
+
 // Custom hook for animation logic
 const useDevOpsAnimation = (steps: Step[]) => {
   const [activeStep, setActiveStep] = useState(0);
@@ -87,6 +94,52 @@ const useDevOpsAnimation = (steps: Step[]) => {
 
   return { activeStep, isInView, animationRef };
 };
+
+const AccordionItemComponent = React.forwardRef<
+  HTMLDivElement,
+  {
+    index: number;
+    phase: MethodologyPhase;
+    isActive: boolean;
+    onClick: (index: number) => void;
+  }
+>(({ index, phase, isActive, onClick }, ref) => {
+  return (
+    <AccordionItem
+      key={index}
+      value={`item-${index}`}
+      ref={ref}
+      onClick={() => onClick(index)}
+      aria-expanded={isActive}
+    >
+      <AccordionTrigger>{phase.phase}</AccordionTrigger>
+      <AccordionContent>
+        <div className="prose prose-slate max-w-none">
+          <p>
+            The {phase.phase} phase is the foundation of our DevOps
+            implementation. During this phase, we conduct a comprehensive
+            analysis of your current development and operations processes,
+            tools, and culture to identify opportunities for improvement.
+          </p>
+          <h4>Key Activities:</h4>
+          <ul>
+            {phase.activities.map((activity, idx) => (
+              <li key={idx}>
+                <strong>{activity}</strong>
+              </li>
+            ))}
+          </ul>
+          <h4>Deliverables:</h4>
+          <ul>
+            {phase.deliverables.map((deliverable, idx) => (
+              <li key={idx}>{deliverable}</li>
+            ))}
+          </ul>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
+  );
+});
 
 const DevOpsModern = React.memo(() => {
   const steps: Step[] = [
@@ -241,12 +294,25 @@ const DevOpsModern = React.memo(() => {
         "Technical assessment of existing tools, infrastructure, and applications",
         "Stakeholder interviews and requirements gathering",
       ],
+      deliverables: [
+        "Comprehensive assessment report with findings and recommendations",
+        "DevOps maturity scorecard",
+        "Prioritized list of improvement opportunities",
+        "Initial high-level roadmap",
+      ],
     },
     {
       phase: "Strategy & Planning",
       duration: "2-3 weeks",
       activities: [
         "Development of a customized DevOps transformation roadmap",
+        "Tool selection and architecture planning",
+        "Definition of success metrics and KPIs",
+        "Resource planning and team structure recommendations",
+        "Risk assessment and mitigation strategies",
+      ],
+      deliverables: [
+        "Customized DevOps transformation roadmap",
         "Tool selection and architecture planning",
         "Definition of success metrics and KPIs",
         "Resource planning and team structure recommendations",
@@ -263,11 +329,25 @@ const DevOpsModern = React.memo(() => {
         "Monitoring and observability solution implementation",
         "Security integration and compliance controls",
       ],
+      deliverables: [
+        "CI/CD pipeline setup and configuration",
+        "Infrastructure as Code implementation",
+        "Containerization and orchestration platform deployment",
+        "Monitoring and observability solution implementation",
+        "Security integration and compliance controls",
+      ],
     },
     {
       phase: "Knowledge Transfer & Optimization",
       duration: "Ongoing",
       activities: [
+        "Team training and documentation",
+        "Continuous improvement and optimization",
+        "Performance tuning and scaling",
+        "Advanced feature implementation",
+        "Ongoing support and maintenance",
+      ],
+      deliverables: [
         "Team training and documentation",
         "Continuous improvement and optimization",
         "Performance tuning and scaling",
@@ -307,15 +387,20 @@ const DevOpsModern = React.memo(() => {
 
   const handleAccordionClick = (index: number) => {
     const itemValue = `item-${index}`;
-    setActiveAccordion(activeAccordion === itemValue ? null : itemValue);
+    const isActive = activeAccordion === itemValue;
 
-    // Scroll to the accordion item
-    if (accordionRefs.current[index]) {
-      accordionRefs.current[index]?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+    // Update the active accordion state
+    setActiveAccordion(isActive ? null : itemValue);
+
+    // Use setTimeout to ensure the state has updated before scrolling
+    setTimeout(() => {
+      if (accordionRefs.current[index]) {
+        accordionRefs.current[index]?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 0); // Delay to ensure the state update is processed
   };
 
   return (
@@ -575,6 +660,7 @@ const DevOpsModern = React.memo(() => {
           </div>
 
           <div className="mt-12">
+            {/* TODO: remove bg from tablist or tabtrigger, and add md:bg-slate-100  to tablist below, for mobile view and add bg-slate-100 to tabtrigger when active and gap-2 on mobile*/}
             <Tabs defaultValue="cicd" className="w-full">
               <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 p-1 mb-10 md:mb-0 gap-2">
                 <TabsTrigger
@@ -720,66 +806,16 @@ const DevOpsModern = React.memo(() => {
             </h3>
             <Accordion type="single" collapsible className="w-full">
               {methodology.map((phase, index) => (
-                <AccordionItem
+                <AccordionItemComponent
                   key={index}
-                  value={`item-${index}`}
+                  index={index}
+                  phase={phase}
+                  isActive={activeAccordion === `item-${index}`}
+                  onClick={handleAccordionClick}
                   ref={(el) => {
                     accordionRefs.current[index] = el;
                   }}
-                  onClick={() => handleAccordionClick(index)}
-                >
-                  <AccordionTrigger>{phase.phase}</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="prose prose-slate max-w-none">
-                      <p>
-                        The Assessment & Discovery phase is the foundation of
-                        our DevOps implementation. During this phase, we conduct
-                        a comprehensive analysis of your current development and
-                        operations processes, tools, and culture to identify
-                        opportunities for improvement.
-                      </p>
-                      <h4>Key Activities:</h4>
-                      <ul>
-                        <li>
-                          <strong>Current State Analysis:</strong> We evaluate
-                          your existing CI/CD pipelines, deployment processes,
-                          infrastructure management, and monitoring solutions.
-                        </li>
-                        <li>
-                          <strong>Bottleneck Identification:</strong> We
-                          identify pain points, inefficiencies, and constraints
-                          in your software delivery process.
-                        </li>
-                        <li>
-                          <strong>DevOps Maturity Assessment:</strong> We
-                          measure your organization's DevOps maturity against
-                          industry benchmarks and best practices.
-                        </li>
-                        <li>
-                          <strong>Technical Assessment:</strong> We evaluate
-                          your existing tools, infrastructure, and applications
-                          to determine compatibility with modern DevOps
-                          practices.
-                        </li>
-                        <li>
-                          <strong>Stakeholder Interviews:</strong> We gather
-                          input from key stakeholders to understand business
-                          objectives, challenges, and requirements.
-                        </li>
-                      </ul>
-                      <h4>Deliverables:</h4>
-                      <ul>
-                        <li>
-                          Comprehensive assessment report with findings and
-                          recommendations
-                        </li>
-                        <li>DevOps maturity scorecard</li>
-                        <li>Prioritized list of improvement opportunities</li>
-                        <li>Initial high-level roadmap</li>
-                      </ul>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                />
               ))}
             </Accordion>
           </div>
