@@ -89,7 +89,7 @@ const DevOpsModern = React.memo(() => {
 
   const { activeStep, isInView, animationRef } = useDevOpsAnimation(steps);
 
-  // DATA FOR THE WHITEPAPER 
+  // DATA FOR THE WHITEPAPER
   // Benefits data
   const benefits = [
     {
@@ -216,7 +216,7 @@ const DevOpsModern = React.memo(() => {
       solution:
         "Our DaaS offering provides the expertise, tools, and processes needed to manage complexity at scale, allowing your team to focus on delivering business value.",
     },
-  ];  
+  ];
 
   // Implementation methodology
   const methodology = [
@@ -288,22 +288,22 @@ const DevOpsModern = React.memo(() => {
       label:
         "Less time spent on unplanned work and rework with DevOps automation",
     },
-  ];  
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
       {/* Hero section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 border-b border-slate-200 bg-gradient-to-b from-white to-slate-50">
+      <section className="w-full py-8 md:py-12 lg:py-24 border-b border-slate-200 bg-gradient-to-b from-white to-slate-50">
         <div className="container px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_500px]">
             <div className="flex flex-col justify-center space-y-4">
               <Badge className="w-fit bg-violet-100 text-violet-700 border-violet-200 hover:bg-violet-200">
                 DevOps as a Service
               </Badge>
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-slate-900">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl text-slate-900">
                 Accelerate Your Development Pipeline
               </h1>
-              <p className="max-w-[600px] text-slate-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="max-w-[600px] text-slate-600 md:text-lg lg:text-xl">
                 Transform your software delivery with our comprehensive DevOps
                 as a Service solution. Automate, optimize, and scale your
                 development operations with expert implementation and ongoing
