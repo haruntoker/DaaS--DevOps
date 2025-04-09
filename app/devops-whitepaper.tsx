@@ -290,6 +290,9 @@ const DevOpsModern = React.memo(() => {
     },
   ];
 
+  // State to track the currently active accordion item
+  const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
       {/* Hero section */}
@@ -548,28 +551,28 @@ const DevOpsModern = React.memo(() => {
 
           <div className="mt-12">
             <Tabs defaultValue="cicd" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-slate-100 p-1">
+              <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 p-1 mb-10 md:mb-0 gap-2">
                 <TabsTrigger
                   value="cicd"
-                  className="data-[state=active]:bg-white"
+                  className="data-[state=active]:bg-white data-[state=active]:text-violet-700"
                 >
                   CI/CD Automation
                 </TabsTrigger>
                 <TabsTrigger
                   value="iac"
-                  className="data-[state=active]:bg-white"
+                  className="data-[state=active]:bg-white data-[state=active]:text-violet-700"
                 >
                   Infrastructure as Code
                 </TabsTrigger>
                 <TabsTrigger
                   value="containers"
-                  className="data-[state=active]:bg-white"
+                  className="data-[state=active]:bg-white data-[state=active]:text-violet-700"
                 >
                   Containerization
                 </TabsTrigger>
                 <TabsTrigger
                   value="monitoring"
-                  className="data-[state=active]:bg-white"
+                  className="data-[state=active]:bg-white  data-[state=active]:text-violet-700"
                 >
                   Monitoring
                 </TabsTrigger>
@@ -679,11 +682,9 @@ const DevOpsModern = React.memo(() => {
                     ))}
                   </ul>
                 </div>
-                {index < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
-                    <ChevronRight className="h-6 w-6 text-violet-500" />
-                  </div>
-                )}
+                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                  <ChevronRight className="h-6 w-6 text-violet-500" />
+                </div>
               </div>
             ))}
           </div>
@@ -693,221 +694,71 @@ const DevOpsModern = React.memo(() => {
               Detailed Implementation Process
             </h3>
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>
-                  Assessment & Discovery Phase
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose prose-slate max-w-none">
-                    <p>
-                      The Assessment & Discovery phase is the foundation of our
-                      DevOps implementation. During this phase, we conduct a
-                      comprehensive analysis of your current development and
-                      operations processes, tools, and culture to identify
-                      opportunities for improvement.
-                    </p>
-                    <h4>Key Activities:</h4>
-                    <ul>
-                      <li>
-                        <strong>Current State Analysis:</strong> We evaluate
-                        your existing CI/CD pipelines, deployment processes,
-                        infrastructure management, and monitoring solutions.
-                      </li>
-                      <li>
-                        <strong>Bottleneck Identification:</strong> We identify
-                        pain points, inefficiencies, and constraints in your
-                        software delivery process.
-                      </li>
-                      <li>
-                        <strong>DevOps Maturity Assessment:</strong> We measure
-                        your organization's DevOps maturity against industry
-                        benchmarks and best practices.
-                      </li>
-                      <li>
-                        <strong>Technical Assessment:</strong> We evaluate your
-                        existing tools, infrastructure, and applications to
-                        determine compatibility with modern DevOps practices.
-                      </li>
-                      <li>
-                        <strong>Stakeholder Interviews:</strong> We gather input
-                        from key stakeholders to understand business objectives,
-                        challenges, and requirements.
-                      </li>
-                    </ul>
-                    <h4>Deliverables:</h4>
-                    <ul>
-                      <li>
-                        Comprehensive assessment report with findings and
-                        recommendations
-                      </li>
-                      <li>DevOps maturity scorecard</li>
-                      <li>Prioritized list of improvement opportunities</li>
-                      <li>Initial high-level roadmap</li>
-                    </ul>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>Strategy & Planning Phase</AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose prose-slate max-w-none">
-                    <p>
-                      Based on the findings from the Assessment & Discovery
-                      phase, we develop a comprehensive strategy and
-                      implementation plan tailored to your organization's
-                      specific needs, constraints, and objectives.
-                    </p>
-                    <h4>Key Activities:</h4>
-                    <ul>
-                      <li>
-                        <strong>DevOps Roadmap Development:</strong> We create a
-                        phased implementation plan with clear milestones,
-                        timelines, and dependencies.
-                      </li>
-                      <li>
-                        <strong>Tool Selection:</strong> We recommend and select
-                        the right tools for your specific needs, considering
-                        your existing investments, team skills, and future
-                        requirements.
-                      </li>
-                      <li>
-                        <strong>Architecture Planning:</strong> We design the
-                        target state architecture for your CI/CD pipelines,
-                        infrastructure automation, and monitoring solutions.
-                      </li>
-                      <li>
-                        <strong>Success Metrics Definition:</strong> We
-                        establish key performance indicators (KPIs) to measure
-                        the success of your DevOps transformation.
-                      </li>
-                      <li>
-                        <strong>Risk Assessment:</strong> We identify potential
-                        risks and develop mitigation strategies to ensure a
-                        smooth implementation.
-                      </li>
-                    </ul>
-                    <h4>Deliverables:</h4>
-                    <ul>
-                      <li>
-                        Detailed implementation roadmap with timelines and
-                        milestones
-                      </li>
-                      <li>Tool selection and architecture diagrams</li>
-                      <li>Resource plan and team structure recommendations</li>
-                      <li>Success metrics and KPI dashboard design</li>
-                      <li>Risk management plan</li>
-                    </ul>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>
-                  Implementation & Automation Phase
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose prose-slate max-w-none">
-                    <p>
-                      During the Implementation & Automation phase, we execute
-                      the roadmap developed in the Strategy & Planning phase,
-                      implementing the selected tools and automating key
-                      processes to create a streamlined DevOps pipeline.
-                    </p>
-                    <h4>Key Activities:</h4>
-                    <ul>
-                      <li>
-                        <strong>CI/CD Pipeline Implementation:</strong> We set
-                        up and configure continuous integration and continuous
-                        delivery pipelines tailored to your applications and
-                        environments.
-                      </li>
-                      <li>
-                        <strong>Infrastructure Automation:</strong> We implement
-                        Infrastructure as Code (IaC) solutions to automate the
-                        provisioning and management of your infrastructure.
-                      </li>
-                      <li>
-                        <strong>Containerization:</strong> We containerize
-                        applications and implement orchestration solutions like
-                        Kubernetes to improve portability and scalability.
-                      </li>
-                      <li>
-                        <strong>Monitoring Setup:</strong> We implement
-                        comprehensive monitoring and observability solutions to
-                        provide insights into application and infrastructure
-                        performance.
-                      </li>
-                      <li>
-                        <strong>Security Integration:</strong> We integrate
-                        security tools and practices into the pipeline to ensure
-                        secure development and deployment.
-                      </li>
-                    </ul>
-                    <h4>Deliverables:</h4>
-                    <ul>
-                      <li>Fully automated CI/CD pipelines</li>
-                      <li>Infrastructure as Code templates and scripts</li>
-                      <li>
-                        Containerized applications and orchestration
-                        configuration
-                      </li>
-                      <li>Monitoring dashboards and alerting rules</li>
-                      <li>Security scanning and compliance checks</li>
-                    </ul>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4">
-                <AccordionTrigger>
-                  Knowledge Transfer & Optimization Phase
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="prose prose-slate max-w-none">
-                    <p>
-                      The final phase focuses on ensuring your team can
-                      effectively use and maintain the implemented DevOps
-                      solutions, while continuously optimizing performance and
-                      addressing evolving needs.
-                    </p>
-                    <h4>Key Activities:</h4>
-                    <ul>
-                      <li>
-                        <strong>Team Training:</strong> We provide comprehensive
-                        training on the implemented tools, processes, and best
-                        practices to ensure your team can effectively use and
-                        maintain the DevOps solutions.
-                      </li>
-                      <li>
-                        <strong>Documentation:</strong> We create detailed
-                        documentation covering architecture, configuration,
-                        operational procedures, and troubleshooting guides.
-                      </li>
-                      <li>
-                        <strong>Performance Tuning:</strong> We optimize the
-                        performance of your CI/CD pipelines, infrastructure, and
-                        applications based on real-world usage patterns.
-                      </li>
-                      <li>
-                        <strong>Continuous Improvement:</strong> We implement
-                        feedback loops and metrics-driven optimization to
-                        continuously improve your DevOps practices.
-                      </li>
-                      <li>
-                        <strong>Ongoing Support:</strong> We provide ongoing
-                        support and guidance to address issues, implement new
-                        features, and adapt to changing requirements.
-                      </li>
-                    </ul>
-                    <h4>Deliverables:</h4>
-                    <ul>
-                      <li>Training materials and workshops</li>
-                      <li>Comprehensive documentation</li>
-                      <li>Performance optimization recommendations</li>
-                      <li>Continuous improvement framework</li>
-                      <li>Support and maintenance plan</li>
-                    </ul>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+              {methodology.map((phase, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  onClick={() =>
+                    setActiveAccordion(
+                      activeAccordion === `item-${index}`
+                        ? null
+                        : `item-${index}`
+                    )
+                  }
+                >
+                  <AccordionTrigger>{phase.phase}</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="prose prose-slate max-w-none">
+                      <p>
+                        The Assessment & Discovery phase is the foundation of
+                        our DevOps implementation. During this phase, we conduct
+                        a comprehensive analysis of your current development and
+                        operations processes, tools, and culture to identify
+                        opportunities for improvement.
+                      </p>
+                      <h4>Key Activities:</h4>
+                      <ul>
+                        <li>
+                          <strong>Current State Analysis:</strong> We evaluate
+                          your existing CI/CD pipelines, deployment processes,
+                          infrastructure management, and monitoring solutions.
+                        </li>
+                        <li>
+                          <strong>Bottleneck Identification:</strong> We
+                          identify pain points, inefficiencies, and constraints
+                          in your software delivery process.
+                        </li>
+                        <li>
+                          <strong>DevOps Maturity Assessment:</strong> We
+                          measure your organization's DevOps maturity against
+                          industry benchmarks and best practices.
+                        </li>
+                        <li>
+                          <strong>Technical Assessment:</strong> We evaluate
+                          your existing tools, infrastructure, and applications
+                          to determine compatibility with modern DevOps
+                          practices.
+                        </li>
+                        <li>
+                          <strong>Stakeholder Interviews:</strong> We gather
+                          input from key stakeholders to understand business
+                          objectives, challenges, and requirements.
+                        </li>
+                      </ul>
+                      <h4>Deliverables:</h4>
+                      <ul>
+                        <li>
+                          Comprehensive assessment report with findings and
+                          recommendations
+                        </li>
+                        <li>DevOps maturity scorecard</li>
+                        <li>Prioritized list of improvement opportunities</li>
+                        <li>Initial high-level roadmap</li>
+                      </ul>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         </div>
