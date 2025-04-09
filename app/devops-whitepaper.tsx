@@ -35,8 +35,21 @@ import {
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
+// Define types for steps, benefits, features, etc.
+type Step = {
+  icon: React.ElementType;
+  label: string;
+  color: string;
+};
+
+type Benefit = {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+};
+
 // Custom hook for animation logic
-const useDevOpsAnimation = (steps: any[]) => {
+const useDevOpsAnimation = (steps: Step[]) => {
   const [activeStep, setActiveStep] = useState(0);
   const [isInView, setIsInView] = useState(false);
   const animationRef = useRef<HTMLDivElement>(null);
@@ -76,7 +89,7 @@ const useDevOpsAnimation = (steps: any[]) => {
 };
 
 const DevOpsModern = React.memo(() => {
-  const steps = [
+  const steps: Step[] = [
     { icon: GitBranch, label: "Plan", color: "bg-violet-500" },
     { icon: Code2, label: "Code", color: "bg-indigo-500" },
     { icon: Package, label: "Build", color: "bg-blue-500" },
@@ -89,9 +102,7 @@ const DevOpsModern = React.memo(() => {
 
   const { activeStep, isInView, animationRef } = useDevOpsAnimation(steps);
 
-  // DATA FOR THE WHITEPAPER
-  // Benefits data
-  const benefits = [
+  const benefits: Benefit[] = [
     {
       icon: Zap,
       title: "Accelerated Delivery",
