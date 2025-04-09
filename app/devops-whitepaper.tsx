@@ -292,6 +292,20 @@ const DevOpsModern = React.memo(() => {
 
   // State to track the currently active accordion item
   const [activeAccordion, setActiveAccordion] = useState<string | null>(null);
+  const accordionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleAccordionClick = (index: number) => {
+    const itemValue = `item-${index}`;
+    setActiveAccordion(activeAccordion === itemValue ? null : itemValue);
+
+    // Scroll to the accordion item
+    if (accordionRefs.current[index]) {
+      accordionRefs.current[index]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-slate-900">
@@ -698,13 +712,10 @@ const DevOpsModern = React.memo(() => {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  onClick={() =>
-                    setActiveAccordion(
-                      activeAccordion === `item-${index}`
-                        ? null
-                        : `item-${index}`
-                    )
-                  }
+                  ref={(el) => {
+                    accordionRefs.current[index] = el;
+                  }}
+                  onClick={() => handleAccordionClick(index)}
                 >
                   <AccordionTrigger>{phase.phase}</AccordionTrigger>
                   <AccordionContent>
